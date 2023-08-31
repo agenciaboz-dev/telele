@@ -42,7 +42,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
             ratio="16:9"
             videoStabilizationMode={VideoStabilization.auto}
         >
-            <FloatingText navigation={navigation} />
+            {!openSettings && <FloatingText navigation={navigation} playing={recording} />}
             <IconButton
                 icon={"format-text-variant-outline"}
                 iconColor={colors.primary}

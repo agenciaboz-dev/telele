@@ -4,13 +4,13 @@ import { Dimensions } from "react-native"
 
 interface TextContextValue {
     text: string
-    setText: (value: string) => void
+    setText: React.Dispatch<React.SetStateAction<string>>
     fontSize: number
-    setFontSize: (value: number) => void
+    setFontSize: React.Dispatch<React.SetStateAction<number>>
     textY: number
-    setTextY: (value: number) => void
+    setTextY: React.Dispatch<React.SetStateAction<number>>
     speed: number
-    setSpeed: (value: number) => void
+    setSpeed: React.Dispatch<React.SetStateAction<number>>
 }
 
 interface TextProviderProps {
@@ -26,8 +26,8 @@ export const TextProvider: React.FC<TextProviderProps> = ({ children }) => {
 
     const [text, setText] = useState("")
     const [fontSize, setFontSize] = useState(30)
-    const [speed, setSpeed] = useState(10)
-    const [textY, setTextY] = useState(height / 2)
+    const [speed, setSpeed] = useState(5)
+    const [textY, setTextY] = useState(0)
 
     return <TextContext.Provider value={{ text, setText, fontSize, setFontSize, textY, setTextY, speed, setSpeed }}>{children}</TextContext.Provider>
 }

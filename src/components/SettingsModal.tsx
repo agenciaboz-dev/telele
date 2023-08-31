@@ -35,7 +35,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) =
                     <Slider
                         value={text.speed}
                         onValueChange={(value) => text.setSpeed(value[0])}
-                        maximumValue={100}
+                        maximumValue={10}
                         minimumValue={1}
                         containerStyle={styles.sliderContainer}
                         thumbStyle={styles.sliderThumb}
