@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { NavigationProp } from "@react-navigation/native"
 import { Dimensions, Text, TouchableOpacity, View } from "react-native"
-import { Camera, CameraType } from "expo-camera"
+import { Camera, CameraType, VideoStabilization } from "expo-camera"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
 
@@ -35,6 +35,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
             type={CameraType.front}
             style={{ position: "absolute", top: 0, left: 0, width, height, padding: 20, alignItems: "center" }}
             ratio="16:9"
+            videoStabilizationMode={VideoStabilization.auto}
         >
             <TouchableOpacity
                 style={{
@@ -43,7 +44,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                     borderRadius: recording ? 5 : 100,
                     width: 50,
                     height: 50,
-                    marginTop: height * 0.75,
+                    marginTop: height * 0.85,
                     backgroundColor: "red",
                     opacity: recording ? 0.3 : 1,
                 }}
