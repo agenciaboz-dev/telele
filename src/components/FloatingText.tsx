@@ -19,7 +19,7 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
         onStartShouldSetPanResponder: () => true,
         onPanResponderMove: Animated.event([null, { dy: pan }], { useNativeDriver: false }),
         onPanResponderRelease: () => {
-            animatedValue.setValue(animatedValue._value + pan._value)
+            animatedValue.setValue((animatedValue as any)._value + (pan as any)._value)
             pan.setValue(0)
         },
     })
@@ -42,7 +42,7 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
     }, [playing, text.speed])
 
     return (
-        <View style={{ position: "absolute", top: 0, left: 0, width, height }}>
+        <View style={{ position: "absolute", top: 0, left: 0, width }}>
             <Animated.View
                 {...panResponder.panHandlers}
                 style={{
