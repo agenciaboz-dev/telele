@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useRef } from "react"
 import { NavigationProp } from "@react-navigation/native"
-import { StyleSheet, View } from "react-native"
-import { Modal, Text, TextInput } from "react-native-paper"
+import { Keyboard, StyleSheet, TextInput, View } from "react-native"
+import { Modal, Text } from "react-native-paper"
 import { Slider } from "@miblanchard/react-native-slider"
 import { useText } from "../hooks/useText"
 import { colors } from "../style/colors"
+import textStyle from "../style/text"
 
 interface SettingsModalProps {
     open: boolean
@@ -21,7 +22,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) =
                     <Text style={styles.text}>tamanho: {text.fontSize.toFixed(0)}</Text>
                     <Slider
                         value={text.fontSize}
-                        onValueChange={(value) => text.setFontSize(value[0])}
+                        onValueChange={(value) => text.setFontSize(Number(value[0].toFixed(0)))}
                         maximumValue={100}
                         minimumValue={1}
                         containerStyle={styles.sliderContainer}
@@ -43,13 +44,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) =
                         minimumTrackTintColor={colors.primary}
                     />
                 </View>
+
                 <TextInput
+                    onBlur={() => Keyboard.dismiss()}
+                    multiline
                     value={text.text}
                     onChangeText={(value) => text.setText(value)}
-                    mode="outlined"
-                    style={{ backgroundColor: "transparent", fontSize: 20, color: colors.text }}
-                    label="texto"
-                    textColor={colors.text}
+                    style={[textStyle, { backgroundColor: "transparent", fontSize: text.fontSize, height: 300 }]}
+                    placeholder="texto"
                 />
             </View>
         </Modal>

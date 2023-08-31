@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import React from "react"
 import { Dimensions } from "react-native"
 
@@ -28,6 +28,10 @@ export const TextProvider: React.FC<TextProviderProps> = ({ children }) => {
     const [fontSize, setFontSize] = useState(30)
     const [speed, setSpeed] = useState(5)
     const [textY, setTextY] = useState(0)
+
+    useEffect(() => {
+        console.log(text)
+    }, [text])
 
     return <TextContext.Provider value={{ text, setText, fontSize, setFontSize, textY, setTextY, speed, setSpeed }}>{children}</TextContext.Provider>
 }

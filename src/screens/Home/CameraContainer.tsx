@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { NavigationProp } from "@react-navigation/native"
 import { Dimensions, Text, TouchableOpacity, View } from "react-native"
 import { Camera, CameraType, VideoStabilization } from "expo-camera"
@@ -8,6 +8,8 @@ import { colors } from "../../style/colors"
 import { FloatingText } from "../../components/FloatingText"
 import { IconButton, Modal } from "react-native-paper"
 import { SettingsModal } from "../../components/SettingsModal"
+import * as Clipboard from "expo-clipboard"
+import { useText } from "../../hooks/useText"
 
 interface CameraContainerProps {
     navigation: NavigationProp<any, any>
@@ -15,6 +17,7 @@ interface CameraContainerProps {
 
 export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) => {
     const cameraRef = useRef<Camera>(null)
+    const text = useText()
 
     const { width, height } = Dimensions.get("screen")
 
@@ -34,6 +37,12 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
         cameraRef.current?.stopRecording()
     }
 
+    useEffect(() => {
+        Clipboard.getStringAsync().then((value) => {
+            text.setText(value)
+        })
+    }, [])
+
     return (
         <Camera
             ref={cameraRef}
@@ -52,6 +61,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
             />
             <TouchableOpacity
                 style={{
+                    zIndex: 5,
                     borderColor: "white",
                     borderWidth: 1,
                     borderRadius: recording ? 5 : 100,
