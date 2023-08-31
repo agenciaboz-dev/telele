@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import * as SplashScreen from "expo-splash-screen"
 import * as MediaLibrary from "expo-media-library"
 import { Camera } from "expo-camera"
+import { PaperProvider } from "react-native-paper"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -33,10 +34,10 @@ const App = () => {
 
 
     return (
-        <>
+        <PaperProvider>
             <StatusBar style="auto" hidden />
             <Routes />
-        </>
+        </PaperProvider>
     )
 }
 
