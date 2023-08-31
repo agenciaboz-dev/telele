@@ -1,20 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from "react-native"
+import { Routes } from "./src/Routes"
+import { useEffect, useState } from "react"
+import * as SplashScreen from "expo-splash-screen"
+import { Camera } from "expo-camera"
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+SplashScreen.preventAutoHideAsync()
+
+const App = () => {
+    const [hasPermission, setHasPermission] = useState<boolean | null>(null)
+
+    useEffect(() => {
+        if (hasPermission === false) {
+            Alert.alert(
+                "Permissão necessária",
+                "Seu dispositivo não está permitindo acesso a câmera. Você pode corrigir isso nos ajustes do seu dispositivo"
+            )
+            ;(async () => {
+                const { status } = await Camera.requestCameraPermissionsAsync()
+                setHasPermission(status === "granted")
+            })()
+        }
+
+        if (hasPermission) {
+            SplashScreen.hideAsync()
+        }
+    }, [hasPermission])
+
+    useEffect(() => {
+        ;(async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync()
+            setHasPermission(status === "granted")
+        })()
+    }, [])
+
+    return (
+        <>
+            <StatusBar style="auto" hidden />
+            <Routes />
+        </>
+    )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
