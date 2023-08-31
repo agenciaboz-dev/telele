@@ -9,38 +9,28 @@ import { Camera } from "expo-camera"
 SplashScreen.preventAutoHideAsync()
 
 const App = () => {
-    const [hasPermission, setHasPermission] = useState<boolean | null>(null)
+    const [cameraPermission, requestCameraPermission] = Camera.useCameraPermissions()
+    const [audioPermission, requestAudioPermission] = Camera.useMicrophonePermissions()
     const [galleryPermission, requestGalleryPermission] = MediaLibrary.usePermissions()
 
     if (galleryPermission === null) {
         requestGalleryPermission()
     }
-    // useEffect(() => {
-    // }, [galleryPermission])
+
+    if (cameraPermission === null) {
+        requestCameraPermission()
+    }
+
+    if (audioPermission === null) {
+        requestAudioPermission()
+    }
 
     useEffect(() => {
-        if (hasPermission === false) {
-            Alert.alert(
-                "Permissão necessária",
-                "Seu dispositivo não está permitindo acesso a câmera. Você pode corrigir isso nos ajustes do seu dispositivo"
-            )
-            ;(async () => {
-                const { status } = await Camera.requestCameraPermissionsAsync()
-                setHasPermission(status === "granted")
-            })()
-        }
-
-        if (hasPermission) {
+        if (galleryPermission?.granted && cameraPermission?.granted && audioPermission?.granted) {
             SplashScreen.hideAsync()
         }
-    }, [hasPermission])
+    }, [cameraPermission, audioPermission, galleryPermission])
 
-    useEffect(() => {
-        ;(async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync()
-            setHasPermission(status === "granted")
-        })()
-    }, [])
 
     return (
         <>

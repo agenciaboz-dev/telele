@@ -16,18 +16,17 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
 
     const [recording, setRecording] = useState(false)
 
-    const handlePlay = async () => {
+    const handlePlay = () => {
         setRecording(true)
-        const video = await cameraRef.current?.recordAsync()
-        // await MediaLibrary.saveToLibraryAsync(picture.uri)
-        if (video) {
-            await Sharing.shareAsync(video.uri)
-        }
+        cameraRef.current?.recordAsync().then((video) => {
+            Sharing.shareAsync(video.uri)
+            // MediaLibrary.saveToLibraryAsync(video.uri)
+        })
     }
 
-    const handleStop = async () => {
+    const handleStop = () => {
         setRecording(false)
-        await cameraRef.current?.stopRecording()
+        cameraRef.current?.stopRecording()
     }
 
     return (
