@@ -4,6 +4,7 @@ import { Dimensions, Text, TouchableOpacity, View } from "react-native"
 import { Camera, CameraType, VideoStabilization } from "expo-camera"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
+import { colors } from "../../style/colors"
 
 interface CameraContainerProps {
     navigation: NavigationProp<any, any>
@@ -45,7 +46,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                     width: 50,
                     height: 50,
                     marginTop: height * 0.85,
-                    backgroundColor: "red",
+                    backgroundColor: colors.primary,
                     opacity: recording ? 0.3 : 1,
                 }}
                 onPress={recording ? handleStop : handlePlay}
