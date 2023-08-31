@@ -13,15 +13,15 @@ const App = () => {
     const [audioPermission, requestAudioPermission] = Camera.useMicrophonePermissions()
     const [galleryPermission, requestGalleryPermission] = MediaLibrary.usePermissions()
 
-    if (galleryPermission === null) {
+    if (!galleryPermission?.granted) {
         requestGalleryPermission()
     }
 
-    if (cameraPermission === null) {
+    if (!cameraPermission?.granted) {
         requestCameraPermission()
     }
 
-    if (audioPermission === null) {
+    if (!audioPermission?.granted) {
         requestAudioPermission()
     }
 
