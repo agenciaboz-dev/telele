@@ -5,6 +5,9 @@ import { Camera, CameraType, VideoStabilization } from "expo-camera"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
 import { colors } from "../../style/colors"
+import { FloatingText } from "../../components/FloatingText"
+import { IconButton, Modal } from "react-native-paper"
+import { SettingsModal } from "../../components/SettingsModal"
 
 interface CameraContainerProps {
     navigation: NavigationProp<any, any>
@@ -16,6 +19,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
     const { width, height } = Dimensions.get("screen")
 
     const [recording, setRecording] = useState(false)
+    const [openSettings, setOpenSettings] = useState(false)
 
     const handlePlay = () => {
         setRecording(true)
@@ -38,6 +42,14 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
             ratio="16:9"
             videoStabilizationMode={VideoStabilization.auto}
         >
+            <FloatingText navigation={navigation} />
+            <IconButton
+                icon={"format-text-variant-outline"}
+                iconColor={colors.primary}
+                size={50}
+                style={{ alignSelf: "flex-end" }}
+                onPress={() => setOpenSettings(true)}
+            />
             <TouchableOpacity
                 style={{
                     borderColor: "white",
@@ -45,12 +57,13 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                     borderRadius: recording ? 5 : 100,
                     width: 50,
                     height: 50,
-                    marginTop: height * 0.85,
+                    marginTop: height * 0.75,
                     backgroundColor: colors.primary,
                     opacity: recording ? 0.3 : 1,
                 }}
                 onPress={recording ? handleStop : handlePlay}
             ></TouchableOpacity>
+            <SettingsModal open={openSettings} onClose={() => setOpenSettings(false)} />
         </Camera>
     )
 }

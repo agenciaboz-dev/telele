@@ -4,7 +4,7 @@ import { colors } from "./colors"
 export const theme: MD3Theme = {
     ...DefaultTheme,
 
-    fonts: configureFonts({ config: { fontFamily: "KGSecondChancesSolid" } }),
+    // fonts: configureFonts({ config: { fontFamily: "KGSecondChancesSolid" } }),
 
     colors: {
         ...DefaultTheme.colors,

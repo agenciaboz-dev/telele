@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen"
 import * as MediaLibrary from "expo-media-library"
 import { Camera } from "expo-camera"
 import { PaperProvider } from "react-native-paper"
+import { theme } from "./src/style/theme"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -34,7 +35,7 @@ const App = () => {
 
 
     return (
-        <PaperProvider>
+        <PaperProvider theme={theme}>
             <StatusBar style="auto" hidden />
             <Routes />
         </PaperProvider>
