@@ -9,6 +9,8 @@ interface TextContextValue {
     setFontSize: (value: number) => void
     textY: number
     setTextY: (value: number) => void
+    speed: number
+    setSpeed: (value: number) => void
 }
 
 interface TextProviderProps {
@@ -24,7 +26,8 @@ export const TextProvider: React.FC<TextProviderProps> = ({ children }) => {
 
     const [text, setText] = useState("")
     const [fontSize, setFontSize] = useState(30)
+    const [speed, setSpeed] = useState(10)
     const [textY, setTextY] = useState(height / 2)
 
-    return <TextContext.Provider value={{ text, setText, fontSize, setFontSize, textY, setTextY }}>{children}</TextContext.Provider>
+    return <TextContext.Provider value={{ text, setText, fontSize, setFontSize, textY, setTextY, speed, setSpeed }}>{children}</TextContext.Provider>
 }

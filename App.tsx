@@ -7,6 +7,7 @@ import * as MediaLibrary from "expo-media-library"
 import { Camera } from "expo-camera"
 import { PaperProvider } from "react-native-paper"
 import { theme } from "./src/style/theme"
+import { TextProvider } from "./src/contexts/textContext"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -36,8 +37,10 @@ const App = () => {
 
     return (
         <PaperProvider theme={theme}>
-            <StatusBar style="auto" hidden />
-            <Routes />
+            <TextProvider>
+                <StatusBar style="auto" hidden />
+                <Routes />
+            </TextProvider>
         </PaperProvider>
     )
 }
