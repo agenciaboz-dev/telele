@@ -28,7 +28,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
         setRecording(true)
         cameraRef.current?.recordAsync().then((video) => {
             Sharing.shareAsync(video.uri)
-            // MediaLibrary.saveToLibraryAsync(video.uri)
+            MediaLibrary.saveToLibraryAsync(video.uri)
         })
     }
 
