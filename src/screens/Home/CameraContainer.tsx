@@ -61,7 +61,6 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
             />
             <TouchableOpacity
                 style={{
-                    zIndex: 5,
                     borderColor: "white",
                     borderWidth: 1,
                     borderRadius: recording ? 5 : 100,
