@@ -58,6 +58,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                 size={50}
                 style={{ alignSelf: "flex-end" }}
                 onPress={() => setOpenSettings(true)}
+                disabled={!!recording}
             />
             <TouchableOpacity
                 style={{
@@ -67,7 +68,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                     width: 50,
                     height: 50,
                     marginTop: height * 0.75,
-                    backgroundColor: colors.primary,
+                    backgroundColor: openSettings ? "grey" : colors.primary,
                     opacity: recording ? 0.3 : 1,
                 }}
                 onPress={recording ? handleStop : handlePlay}
