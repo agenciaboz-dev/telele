@@ -1,11 +1,12 @@
 import React, { useRef } from "react"
 import { NavigationProp } from "@react-navigation/native"
 import { Keyboard, StyleSheet, TextInput, View } from "react-native"
-import { Modal, Text } from "react-native-paper"
+import { Button, Modal, Text } from "react-native-paper"
 import { Slider } from "@miblanchard/react-native-slider"
 import { useText } from "../hooks/useText"
 import { colors } from "../style/colors"
 import textStyle from "../style/text"
+import * as Clipboard from "expo-clipboard"
 
 interface SettingsModalProps {
     open: boolean
@@ -14,6 +15,12 @@ interface SettingsModalProps {
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) => {
     const text = useText()
+
+    const handlePaste = () => {
+        Clipboard.getStringAsync().then((value) => {
+            text.setText(value)
+        })
+    }
 
     return (
         <Modal visible={open} onDismiss={onClose}>
@@ -53,6 +60,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) =
                     style={[textStyle, { backgroundColor: "transparent", fontSize: text.fontSize, height: 300 }]}
                     placeholder="texto"
                 />
+                <View style={{ flexDirection: "row", gap: 20 }}>
+                    <Button icon={"eraser-variant"} mode="outlined" onPress={() => text.setText("")} style={styles.button}>
+                        limpar
+                    </Button>
+                    <Button icon="clipboard-file" mode="outlined" onPress={handlePaste} style={styles.button}>
+                        colar
+                    </Button>
+                </View>
             </View>
         </Modal>
     )
@@ -69,4 +84,5 @@ export const styles = StyleSheet.create({
     sliderContainer: { backgroundColor: "transparent", flex: 1 },
     sliderThumb: { backgroundColor: colors.primary },
     sliderTrack: { backgroundColor: "white" },
+    button: { flex: 1, borderRadius: 10 },
 })
