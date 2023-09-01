@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react"
-import { Animated, Dimensions, Easing, PanResponder, View } from "react-native"
+import React, { useEffect, useRef, useState } from "react"
+import { Animated, Dimensions, Easing, LayoutChangeEvent, PanResponder, View } from "react-native"
 import { Text } from "react-native-paper"
 import { useText } from "../hooks/useText"
 import textStyle from "../style/text"
@@ -15,6 +15,8 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
     const animatedValue = useRef(new Animated.Value(height * 0.75)).current
     const pan = useRef(new Animated.Value(0)).current // Only Y position
 
+    const [textHeight, setTextHeight] = useState<number>(0)
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onPanResponderMove: Animated.event([null, { dy: pan }], { useNativeDriver: false }),
@@ -24,13 +26,18 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
         },
     })
 
+    const handleTextLayout = (e: LayoutChangeEvent) => {
+        // specify type
+        setTextHeight(e.nativeEvent.layout.height)
+    }
+
     useEffect(() => {
         if (playing) {
             const duration = 100000 / text.speed
 
             Animated.loop(
                 Animated.timing(animatedValue, {
-                    toValue: -height,
+                    toValue: -textHeight,
                     duration: duration,
                     easing: Easing.linear,
                     useNativeDriver: true,
@@ -39,7 +46,7 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
         } else {
             animatedValue.setValue(height * 0.75)
         }
-    }, [playing, text.speed])
+    }, [playing, text.speed, textHeight])
 
     return (
         <View style={{ position: "absolute", top: 0, left: 0, width }}>
@@ -49,7 +56,9 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
                     transform: [{ translateY: Animated.add(animatedValue, pan) }],
                 }}
             >
-                <Text style={[textStyle, { fontSize: text.fontSize, padding: 20 }]}>{text.text}</Text>
+                <Text style={[textStyle, { fontSize: text.fontSize, padding: 20 }]} onLayout={handleTextLayout}>
+                    {text.text}
+                </Text>
             </Animated.View>
         </View>
     )
