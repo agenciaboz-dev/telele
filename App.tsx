@@ -35,13 +35,17 @@ const App = () => {
     }, [cameraPermission, audioPermission, galleryPermission])
 
 
-    return (
+    return galleryPermission?.granted && cameraPermission?.granted && audioPermission?.granted ? (
         <PaperProvider theme={theme}>
             <TextProvider>
                 <StatusBar style="auto" hidden />
                 <Routes />
             </TextProvider>
         </PaperProvider>
+    ) : (
+        <View>
+            <Text>o app precisa de permissão para acessar a câmera, microfone e galeria.</Text>
+        </View>
     )
 }
 
