@@ -23,28 +23,33 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
         onPanResponderRelease: () => {
             animatedValue.setValue((animatedValue as any)._value + (pan as any)._value)
             pan.setValue(0)
+            if (playing) {
+                startAnimation() // Start animation from new position
+            }
         },
     })
 
     const handleTextLayout = (e: LayoutChangeEvent) => {
-        // specify type
         setTextHeight(e.nativeEvent.layout.height)
+    }
+
+    const startAnimation = () => {
+        const duration = 100000 / text.speed
+        Animated.loop(
+            Animated.timing(animatedValue, {
+                toValue: -textHeight,
+                duration: duration,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            })
+        ).start()
     }
 
     useEffect(() => {
         if (playing) {
-            const duration = 100000 / text.speed
-
-            Animated.loop(
-                Animated.timing(animatedValue, {
-                    toValue: -textHeight,
-                    duration: duration,
-                    easing: Easing.linear,
-                    useNativeDriver: true,
-                })
-            ).start()
+            startAnimation()
         } else {
-            animatedValue.setValue(height * 0.75)
+            animatedValue.setValue(height * 0.75) // Reset position when not playing
         }
     }, [playing, text.speed, textHeight])
 
