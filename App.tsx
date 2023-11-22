@@ -16,19 +16,20 @@ const App = () => {
     const [audioPermission, requestAudioPermission] = Camera.useMicrophonePermissions()
     const [galleryPermission, requestGalleryPermission] = MediaLibrary.usePermissions()
 
-    if (!galleryPermission?.granted) {
-        requestGalleryPermission()
-    }
-
-    if (!cameraPermission?.granted) {
-        requestCameraPermission()
-    }
-
-    if (!audioPermission?.granted) {
-        requestAudioPermission()
-    }
-
+    
     useEffect(() => {
+        if (!galleryPermission?.granted) {
+            requestGalleryPermission()
+        }
+
+        if (!cameraPermission?.granted) {
+            requestCameraPermission()
+        }
+
+        if (!audioPermission?.granted) {
+            requestAudioPermission()
+        }
+
         if (galleryPermission?.granted && cameraPermission?.granted && audioPermission?.granted) {
             SplashScreen.hideAsync()
         }

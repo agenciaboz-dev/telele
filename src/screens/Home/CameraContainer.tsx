@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { NavigationProp } from "@react-navigation/native"
-import { Dimensions, Text, TouchableOpacity, View } from "react-native"
+import { Dimensions, Platform, Text, TouchableOpacity, View } from "react-native"
 import { Camera, CameraType, VideoStabilization } from "expo-camera"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
@@ -23,6 +23,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
 
     const [recording, setRecording] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
+    const [cameraKey, setCameraKey] = useState(1)
 
     const handlePlay = () => {
         setRecording(true)
@@ -44,36 +45,48 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
     }, [])
 
     return (
-        <Camera
-            ref={cameraRef}
-            type={CameraType.front}
-            style={{ position: "absolute", top: 0, left: 0, width, height, padding: 20, alignItems: "center" }}
-            ratio="16:9"
-            videoStabilizationMode={VideoStabilization.auto}
-        >
-            {!openSettings && <FloatingText navigation={navigation} playing={recording} />}
-            <IconButton
-                icon={"format-text-variant-outline"}
-                iconColor={colors.primary}
-                size={50}
-                style={{ alignSelf: "flex-end" }}
-                onPress={() => setOpenSettings(true)}
-                disabled={!!recording}
-            />
+        <>
+            <Camera
+                key={cameraKey}
+                ref={cameraRef}
+                type={CameraType.front}
+                style={{ position: "absolute", top: 0, left: 0, width, height, padding: 20, alignItems: "center" }}
+                ratio="16:9"
+                videoStabilizationMode={VideoStabilization.auto}
+            >
+                {!openSettings && <FloatingText navigation={navigation} playing={recording} />}
+                <IconButton
+                    icon={"format-text-variant-outline"}
+                    iconColor={colors.primary}
+                    size={50}
+                    style={{ alignSelf: "flex-end" }}
+                    onPress={() => setOpenSettings(true)}
+                    disabled={!!recording}
+                />
+
+                <SettingsModal
+                    open={openSettings}
+                    onClose={() => {
+                        setOpenSettings(false)
+                        setCameraKey((key) => key + 1)
+                    }}
+                />
+            </Camera>
             <TouchableOpacity
                 style={{
+                    position: "absolute",
                     borderColor: "white",
                     borderWidth: 1,
                     borderRadius: recording ? 5 : 100,
                     width: 50,
                     height: 50,
-                    marginTop: height * 0.75,
                     backgroundColor: openSettings ? "grey" : colors.primary,
                     opacity: recording ? 0.3 : 1,
+                    top: height * 0.8,
+                    alignSelf: "center",
                 }}
                 onPress={recording ? handleStop : handlePlay}
             ></TouchableOpacity>
-            <SettingsModal open={openSettings} onClose={() => setOpenSettings(false)} />
-        </Camera>
+        </>
     )
 }

@@ -18,7 +18,15 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
     const [textHeight, setTextHeight] = useState<number>(0)
 
     const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
+        onStartShouldSetPanResponder: (evt, gestureState) => {
+            return !isWithinControlArea(gestureState.x0, gestureState.y0)
+        },
+        onMoveShouldSetPanResponder: (evt, gestureState) => {
+            return !isWithinControlArea(gestureState.moveX, gestureState.moveY)
+        },
+        onPanResponderGrant: (e, gestureState) => {
+            console.log("Touch Start Position:", gestureState.x0, gestureState.y0)
+        },
         onPanResponderMove: Animated.event([null, { dy: pan }], { useNativeDriver: false }),
         onPanResponderRelease: () => {
             animatedValue.setValue((animatedValue as any)._value + (pan as any)._value)
@@ -31,6 +39,18 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
 
     const handleTextLayout = (e: LayoutChangeEvent) => {
         setTextHeight(e.nativeEvent.layout.height)
+    }
+
+    const isWithinControlArea = (x: number, y: number) => {
+        console.log({ x, y })
+        const centerX = width / 2
+        const centerY = height * 0.85
+        const tolerance = 25
+
+        const withinX = x >= centerX - tolerance && x <= centerX + tolerance
+        const withinY = y >= centerY - tolerance && y <= centerY + tolerance
+
+        return withinX && withinY
     }
 
     const startAnimation = () => {
@@ -54,17 +74,19 @@ export const FloatingText: React.FC<FloatingTextProps> = ({ navigation, playing 
     }, [playing, text.speed, textHeight])
 
     return (
-        <View style={{ position: "absolute", top: 0, left: 0, width }}>
-            <Animated.View
-                {...panResponder.panHandlers}
-                style={{
-                    transform: [{ translateY: Animated.add(animatedValue, pan) }],
-                }}
-            >
-                <Text style={[textStyle, { fontSize: text.fontSize, padding: 20 }]} onLayout={handleTextLayout}>
-                    {text.text}
-                </Text>
-            </Animated.View>
-        </View>
+        <Animated.View
+            {...panResponder.panHandlers}
+            style={{
+                transform: [{ translateY: Animated.add(animatedValue, pan) }],
+                width,
+                position: "absolute",
+                top: 0,
+                left: 0,
+            }}
+        >
+            <Text style={[textStyle, { fontSize: text.fontSize, padding: 20 }]} onLayout={handleTextLayout}>
+                {text.text}
+            </Text>
+        </Animated.View>
     )
 }
