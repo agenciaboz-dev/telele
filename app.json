@@ -1,38 +1,43 @@
 {
-  "expo": {
-    "name": "TeleLê",
-    "slug": "telele",
-    "owner": "agenciaboz-dev",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "monochromeImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.agenciabozdev.telele"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "d0ad3cc9-f503-46a1-9b06-350ced1a9654"
-      }
+    "expo": {
+        "name": "TeleLê",
+        "slug": "telele",
+        "owner": "agenciaboz-dev",
+        "version": "1.1.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.agenciabozdev.telele",
+            "infoPlist": {
+                "NSCameraUsageDescription": "Permitir acesso a câmera para gravar vídeos com a funcionalidade de teleprompter.",
+                "NSMicrophoneUsageDescription": "Permitir o acesso a gravação de áudio para sincronizar sua voz com os vídeos.",
+                "NSPhotoLibraryUsageDescription": "Permitir o acesso à galeria de fotos para salvar os vídeos gravados."
+            }
+        },
+
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/icon.png",
+                "monochromeImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.agenciabozdev.telele"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "d0ad3cc9-f503-46a1-9b06-350ced1a9654"
+            }
+        }
     }
-  }
 }

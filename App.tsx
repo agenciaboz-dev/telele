@@ -35,6 +35,7 @@ const App = () => {
         }
     }, [cameraPermission, audioPermission, galleryPermission])
 
+    
 
     return galleryPermission?.granted && cameraPermission?.granted && audioPermission?.granted ? (
         <PaperProvider theme={theme}>
