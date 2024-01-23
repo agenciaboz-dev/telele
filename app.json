@@ -14,7 +14,7 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true,
+            "supportsTablet": false,
             "bundleIdentifier": "com.agenciabozdev.telele",
             "infoPlist": {
                 "NSCameraUsageDescription": "Permitir acesso a câmera para gravar vídeos com a funcionalidade de teleprompter.",
