@@ -9,7 +9,7 @@ interface HomeProps {
 
 export const Home: React.FC<HomeProps> = ({ navigation }) => {
     return (
-        <View style={{}}>
+        <View style={{ flex: 1, backgroundColor: "#000" }}>
             <CameraContainer navigation={navigation} />
         </View>
     )

@@ -24,6 +24,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
     const [recording, setRecording] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
     const [cameraKey, setCameraKey] = useState(1)
+    const [ratio, setRatio] = useState<"16:9" | "4:3" | "1:1">("16:9")
 
     const handlePlay = () => {
         setRecording(true)
@@ -50,8 +51,8 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                 key={cameraKey}
                 ref={cameraRef}
                 type={CameraType.front}
-                style={{ position: "absolute", top: 0, left: 0, width, height, padding: 20, alignItems: "center" }}
-                ratio="16:9"
+                style={{ position: "absolute", top: 0, left: 0, width, height: height * 0.8, padding: 20, alignItems: "center" }}
+                ratio={ratio}
                 videoStabilizationMode={VideoStabilization.auto}
             >
                 {!openSettings && <FloatingText navigation={navigation} playing={recording} />}
@@ -82,11 +83,22 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                     height: 50,
                     backgroundColor: openSettings ? "grey" : colors.primary,
                     opacity: recording ? 0.3 : 1,
-                    top: height * 0.8,
+                    bottom: 50,
                     alignSelf: "center",
                 }}
                 onPress={recording ? handleStop : handlePlay}
             ></TouchableOpacity>
+            <View style={{ position: "absolute", bottom: 20, right: 50, alignItems: "center", gap: 10 }}>
+                <TouchableOpacity onPress={() => setRatio("16:9")} style={{ opacity: ratio == "16:9" ? 1 : 0.15 }}>
+                    <Text style={{ color: colors.primary }}>16:9</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setRatio("4:3")} style={{ opacity: ratio == "4:3" ? 1 : 0.15 }}>
+                    <Text style={{ color: colors.primary }}>4:3</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setRatio("1:1")} style={{ opacity: ratio == "1:1" ? 1 : 0.15 }}>
+                    <Text style={{ color: colors.primary }}>1:1</Text>
+                </TouchableOpacity>
+            </View>
         </>
     )
 }
