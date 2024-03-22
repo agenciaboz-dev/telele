@@ -8,15 +8,17 @@ import { Camera } from "expo-camera"
 import { PaperProvider } from "react-native-paper"
 import { theme } from "./src/style/theme"
 import { TextProvider } from "./src/contexts/textContext"
+import { useKeepAwake } from "expo-keep-awake"
 
 SplashScreen.preventAutoHideAsync()
 
+
 const App = () => {
+    useKeepAwake()
     const [cameraPermission, requestCameraPermission] = Camera.useCameraPermissions()
     const [audioPermission, requestAudioPermission] = Camera.useMicrophonePermissions()
     const [galleryPermission, requestGalleryPermission] = MediaLibrary.usePermissions()
 
-    
     useEffect(() => {
         if (!galleryPermission?.granted) {
             requestGalleryPermission()
@@ -34,8 +36,6 @@ const App = () => {
             SplashScreen.hideAsync()
         }
     }, [cameraPermission, audioPermission, galleryPermission])
-
-    
 
     return galleryPermission?.granted && cameraPermission?.granted && audioPermission?.granted ? (
         <PaperProvider theme={theme}>
