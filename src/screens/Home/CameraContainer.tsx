@@ -55,7 +55,6 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                 ratio={ratio}
                 videoStabilizationMode={VideoStabilization.auto}
             >
-                {!openSettings && <FloatingText navigation={navigation} playing={recording} />}
                 <IconButton
                     icon={"format-text-variant-outline"}
                     iconColor={colors.primary}
@@ -73,6 +72,7 @@ export const CameraContainer: React.FC<CameraContainerProps> = ({ navigation }) 
                     }}
                 />
             </Camera>
+            {!openSettings && <FloatingText navigation={navigation} playing={recording} />}
             <TouchableOpacity
                 style={{
                     position: "absolute",
